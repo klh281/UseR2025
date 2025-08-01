@@ -277,16 +277,16 @@ window.Quarto = {
 <pre><code># A tibble: 910 × 3
    graph_type wtp_final shuffled_group
    &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;         
- 1 HOPS              50 CI rescaled   
- 2 HOPS              25 HOPS          
- 3 PI                50 CI rescaled   
- 4 CI                50 CI rescaled   
- 5 CI                50 PI            
+ 1 HOPS              50 PI            
+ 2 HOPS              25 CI rescaled   
+ 3 PI                50 PI            
+ 4 CI                50 CI            
+ 5 CI                50 HOPS          
  6 HOPS              50 CI            
- 7 HOPS             150 PI            
- 8 CI                11 HOPS          
- 9 CI                50 CI rescaled   
-10 HOPS              20 CI            
+ 7 HOPS             150 CI rescaled   
+ 8 CI                11 PI            
+ 9 CI                50 CI            
+10 HOPS              20 HOPS          
 # ℹ 900 more rows</code></pre>
 </div>
 </div>
@@ -318,32 +318,13 @@ window.Quarto = {
 <section id="import-the-data" class="level1">
 <h1>Import the data</h1>
 <p>Please click <strong>Run Code</strong> on the code chunk below to import the data.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/uncertainty_exp2.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(effect_size <span class="sc">==</span> <span class="st">"Large effect size"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(graph_type, wtp_final) <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">graph_type =</span> <span class="fu">factor</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    graph_type,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CI"</span>, <span class="st">"PI"</span>, <span class="st">"CI rescaled"</span>, <span class="st">"HOPS"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   graph_type wtp_final
-   &lt;fct&gt;          &lt;dbl&gt;
- 1 HOPS              50
- 2 HOPS              25
- 3 PI                50
- 4 CI                50
- 5 CI                50
- 6 HOPS              50
- 7 HOPS             150
- 8 CI                11
- 9 CI                50
-10 HOPS              20</code></pre>
+<div>
+<div id="webr-1" class="exercise-cell">
+
 </div>
+<script type="webr-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsIm1lc3NhZ2UiOmZhbHNlfSwiY29kZSI6IlxuZGYgPC0gcmVhZF9jc3YoXCJkYXRhL3VuY2VydGFpbnR5X2V4cDIuY3N2XCIpIHw+XG4gIGZpbHRlcihlZmZlY3Rfc2l6ZSA9PSBcIkxhcmdlIGVmZmVjdCBzaXplXCIpIHw+XG4gIHNlbGVjdChncmFwaF90eXBlLCB3dHBfZmluYWwpIHw+XG4gIGRyb3BfbmEoKSB8PlxuICBtdXRhdGUoZ3JhcGhfdHlwZSA9IGZhY3RvcihcbiAgICBncmFwaF90eXBlLFxuICAgIGxldmVscyA9IGMoXCJDSVwiLCBcIlBJXCIsIFwiQ0kgcmVzY2FsZWRcIiwgXCJIT1BTXCIpXG4gICkpXG5cbmRmIHw+IGhlYWQobiA9IDEwKSJ9
+</script>
 </div>
 <section id="step-1-choose-two-conditions-to-compare" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-choose-two-conditions-to-compare">Step 1: Choose two conditions to compare</h2>
@@ -356,44 +337,13 @@ window.Quarto = {
 </ul>
 <p>The code also creates a dummy-coded variable to compare Group B to Group A (which we’ll use later in the activity).</p>
 <p>Press <strong>Run Code</strong> to create the subsetted data frame for the investigation.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input the names of the groups you'd like to compare</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>selection_1 <span class="ot">&lt;-</span> <span class="st">"PI"</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>selection_2 <span class="ot">&lt;-</span> <span class="st">"HOPS"</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>my_groups <span class="ot">&lt;-</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span> </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(graph_type <span class="sc">%in%</span> <span class="fu">c</span>(selection_1, selection_2)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      graph_type <span class="sc">==</span> selection_1 <span class="sc">~</span> <span class="st">"A"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      graph_type <span class="sc">==</span> selection_2 <span class="sc">~</span> <span class="st">"B"</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">factor</span>(group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)),</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">groupB =</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">"B"</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(wtp_final, group, groupB)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>my_groups</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 470 × 3
-   wtp_final group groupB
-       &lt;dbl&gt; &lt;fct&gt;  &lt;dbl&gt;
- 1        50 B          1
- 2        25 B          1
- 3        50 A          0
- 4        50 B          1
- 5       150 B          1
- 6        20 B          1
- 7        85 B          1
- 8       100 B          1
- 9        60 A          0
-10        20 A          0
-# ℹ 460 more rows</code></pre>
+<div>
+<div id="webr-2" class="exercise-cell">
+
 </div>
+<script type="webr-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIGlucHV0IHRoZSBuYW1lcyBvZiB0aGUgZ3JvdXBzIHlvdSdkIGxpa2UgdG8gY29tcGFyZVxuc2VsZWN0aW9uXzEgPC0gXCJQSVwiXG5zZWxlY3Rpb25fMiA8LSBcIkhPUFNcIlxuXG5teV9ncm91cHMgPC1cbiAgZGYgfD4gXG4gIGZpbHRlcihncmFwaF90eXBlICVpbiUgYyhzZWxlY3Rpb25fMSwgc2VsZWN0aW9uXzIpKSB8PiBcbiAgbXV0YXRlKFxuICAgIGdyb3VwID0gY2FzZV93aGVuKFxuICAgICAgZ3JhcGhfdHlwZSA9PSBzZWxlY3Rpb25fMSB+IFwiQVwiLFxuICAgICAgZ3JhcGhfdHlwZSA9PSBzZWxlY3Rpb25fMiB+IFwiQlwiXG4gICAgKSxcbiAgICBncm91cCA9IGZhY3Rvcihncm91cCwgbGV2ZWxzID0gYyhcIkFcIiwgXCJCXCIpKSxcbiAgICBncm91cEIgPSBjYXNlX3doZW4oXG4gICAgICBncm91cCA9PSBcIkJcIiB+IDEsXG4gICAgICBUUlVFIH4gMFxuICAgIClcbiAgKSB8PiBcbiAgc2VsZWN0KHd0cF9maW5hbCwgZ3JvdXAsIGdyb3VwQilcblxubXlfZ3JvdXBzIn0=
+</script>
 </div>
 </section>
 <section id="step-2-compute-descriptive-statistics" class="level2">
@@ -402,105 +352,36 @@ window.Quarto = {
 <p>What is the average willingness to pay for the special boulder in each of your selected conditions?</p>
 </blockquote>
 <p>Press <strong>Run Code</strong> on the code chunk below to compute the mean and standard deviation of willingness to pay for the special boulder in your selected conditions. The code also calculates the sample size of each group.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_groups <span class="sc">|&gt;</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(wtp_final),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(wtp_final),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 4
-  group  mean    sd     n
-  &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-1 A      64.7  53.6   236
-2 B      70.4  48.1   234</code></pre>
+<div>
+<div id="webr-3" class="exercise-cell">
+
 </div>
+<script type="webr-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5teV9ncm91cHMgfD4gXG4gIGdyb3VwX2J5KGdyb3VwKSB8PiBcbiAgc3VtbWFyaXplKG1lYW4gPSBtZWFuKHd0cF9maW5hbCksXG4gICAgICAgICAgICBzZCA9IHNkKHd0cF9maW5hbCksXG4gICAgICAgICAgICBuID0gbigpKSJ9
+</script>
 </div>
 <blockquote class="blockquote">
 <p>What is the mean difference in willingness to pay between the two groups?</p>
 </blockquote>
 <p>Press <strong>Run Code</strong> to calculate the difference in willingness to pay between these two groups.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the observed difference (Group B - Group A)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>observed_diff <span class="ot">&lt;-</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  my_groups <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(wtp_final)) <span class="sc">|&gt;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> group, <span class="at">values_from =</span> mean_value) <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">observed_diff =</span> B <span class="sc">-</span> A) <span class="sc">|&gt;</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(observed_diff)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># format for reporting</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Difference between groups (B - A):"</span>, </span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, observed_diff), </span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Difference between groups (B - A): 5.72 </code></pre>
+<div>
+<div id="webr-4" class="exercise-cell">
+
 </div>
+<script type="webr-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIGNhbGN1bGF0ZSB0aGUgb2JzZXJ2ZWQgZGlmZmVyZW5jZSAoR3JvdXAgQiAtIEdyb3VwIEEpXG5vYnNlcnZlZF9kaWZmIDwtIFxuICBteV9ncm91cHMgfD5cbiAgZ3JvdXBfYnkoZ3JvdXApIHw+XG4gIHN1bW1hcmlzZShtZWFuX3ZhbHVlID0gbWVhbih3dHBfZmluYWwpKSB8PlxuICBwaXZvdF93aWRlcihuYW1lc19mcm9tID0gZ3JvdXAsIHZhbHVlc19mcm9tID0gbWVhbl92YWx1ZSkgfD5cbiAgbXV0YXRlKG9ic2VydmVkX2RpZmYgPSBCIC0gQSkgfD4gXG4gIHB1bGwob2JzZXJ2ZWRfZGlmZilcblxuIyBmb3JtYXQgZm9yIHJlcG9ydGluZ1xuY2F0KFwiRGlmZmVyZW5jZSBiZXR3ZWVuIGdyb3VwcyAoQiAtIEEpOlwiLCBcbiAgICBzcHJpbnRmKFwiJS4yZlwiLCBvYnNlcnZlZF9kaWZmKSwgXG4gICAgXCJcXG5cIikifQ==
+</script>
 </div>
 <blockquote class="blockquote">
 <p>Last, let’s create a plot of the raw data. Press <strong>Run Code</strong> to visualize the distribution of willingness to pay for these two groups.</p>
 </blockquote>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate mean and 95% CI for each condition</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df_summary <span class="ot">&lt;-</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  my_groups <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">|&gt;</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_wtp =</span> <span class="fu">mean</span>(wtp_final),</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_low =</span> mean_wtp <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="fu">n</span>() <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">sd</span>(wtp_final) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_high =</span> mean_wtp <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="fu">n</span>() <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">sd</span>(wtp_final) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>())</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the difference for annotation</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>observed_diff <span class="ot">&lt;-</span> <span class="fu">diff</span>(df_summary<span class="sc">$</span>mean_wtp)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate midpoint for label placement</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>midpoint_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_summary<span class="sc">$</span>mean_wtp)</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># create plot</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>df_summary <span class="sc">|&gt;</span> </span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_color =</span> <span class="fu">case_when</span>(</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">"B"</span> <span class="sc">~</span> <span class="st">"#f6a27b"</span>,  </span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">~</span> <span class="st">"#7bcff6"</span>     </span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> mean_wtp, <span class="at">color =</span> group_color)) <span class="sc">+</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Confidence intervals</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_linerange</span>(</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">ymin =</span> ci_low, <span class="at">ymax =</span> ci_high),</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="dv">2</span>,</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.3</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># points</span></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">shape =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># difference annotation</span></span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">1</span>, <span class="at">xend =</span> <span class="dv">2</span>,</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> df_summary<span class="sc">$</span>mean_wtp[<span class="dv">1</span>], <span class="at">yend =</span> df_summary<span class="sc">$</span>mean_wtp[<span class="dv">2</span>],</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"lightgrey"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">1.5</span>, <span class="at">y =</span> midpoint_y,</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"Difference: %.2f"</span>, observed_diff),</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">size =</span> <span class="dv">5</span></span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_identity</span>() <span class="sc">+</span>  </span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"How Visualization Type Affects Willingness to Pay"</span>,</span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Mean and 95% CI are displayed"</span>,</span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Graph type viewed / Condition"</span>, </span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Willingness to pay"</span></span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="UseR2025_webRactivity_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div id="webr-5" class="exercise-cell">
+
 </div>
-</div>
+<script type="webr-5-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIGNhbGN1bGF0ZSBtZWFuIGFuZCA5NSUgQ0kgZm9yIGVhY2ggY29uZGl0aW9uXG5kZl9zdW1tYXJ5IDwtIFxuICBteV9ncm91cHMgfD4gXG4gIGdyb3VwX2J5KGdyb3VwKSB8PlxuICBzdW1tYXJpemUoXG4gICAgbWVhbl93dHAgPSBtZWFuKHd0cF9maW5hbCksXG4gICAgY2lfbG93ID0gbWVhbl93dHAgLSBxdCgwLjk3NSwgZGYgPSBuKCkgLSAxKSAqIHNkKHd0cF9maW5hbCkgLyBzcXJ0KG4oKSksXG4gICAgY2lfaGlnaCA9IG1lYW5fd3RwICsgcXQoMC45NzUsIGRmID0gbigpIC0gMSkgKiBzZCh3dHBfZmluYWwpIC8gc3FydChuKCkpXG4gIClcblxuIyBjYWxjdWxhdGUgdGhlIGRpZmZlcmVuY2UgZm9yIGFubm90YXRpb25cbm9ic2VydmVkX2RpZmYgPC0gZGlmZihkZl9zdW1tYXJ5JG1lYW5fd3RwKVxuXG4jIGNhbGN1bGF0ZSBtaWRwb2ludCBmb3IgbGFiZWwgcGxhY2VtZW50XG5taWRwb2ludF95IDwtIG1lYW4oZGZfc3VtbWFyeSRtZWFuX3d0cClcblxuIyBjcmVhdGUgcGxvdFxuZGZfc3VtbWFyeSB8PiBcbiAgbXV0YXRlKFxuICAgIGdyb3VwX2NvbG9yID0gY2FzZV93aGVuKFxuICAgICAgZ3JvdXAgPT0gXCJCXCIgfiBcIiNmNmEyN2JcIiwgIFxuICAgICAgZ3JvdXAgPT0gXCJBXCIgfiBcIiM3YmNmZjZcIiAgICAgXG4gICAgKVxuICApIHw+IFxuICBnZ3Bsb3QobWFwcGluZyA9IGFlcyh4ID0gZ3JvdXAsIHkgPSBtZWFuX3d0cCwgY29sb3IgPSBncm91cF9jb2xvcikpICtcbiAgIyBDb25maWRlbmNlIGludGVydmFsc1xuICBnZW9tX2xpbmVyYW5nZShcbiAgICBtYXBwaW5nID0gYWVzKHltaW4gPSBjaV9sb3csIHltYXggPSBjaV9oaWdoKSxcbiAgICBsaW5ld2lkdGggPSAyLFxuICAgIGFscGhhID0gMC4zXG4gICkgK1xuICAjIHBvaW50c1xuICBnZW9tX3BvaW50KHNpemUgPSA0LCBzaGFwZSA9IDE2KSArXG4gICMgZGlmZmVyZW5jZSBhbm5vdGF0aW9uXG4gIGdlb21fc2VnbWVudChcbiAgICB4ID0gMSwgeGVuZCA9IDIsXG4gICAgeSA9IGRmX3N1bW1hcnkkbWVhbl93dHBbMV0sIHllbmQgPSBkZl9zdW1tYXJ5JG1lYW5fd3RwWzJdLFxuICAgIGNvbG9yID0gXCJsaWdodGdyZXlcIiwgbGluZXdpZHRoID0gMC41LCBsaW5ldHlwZSA9IFwiZG90dGVkXCJcbiAgKSArXG4gIGdlb21fbGFiZWwoXG4gICAgeCA9IDEuNSwgeSA9IG1pZHBvaW50X3ksXG4gICAgbGFiZWwgPSBzcHJpbnRmKFwiRGlmZmVyZW5jZTogJS4yZlwiLCBvYnNlcnZlZF9kaWZmKSxcbiAgICBjb2xvciA9IFwiYmxhY2tcIiwgZmlsbCA9IFwibGlnaHRncmV5XCIsIHNpemUgPSA1XG4gICkgK1xuICBzY2FsZV9jb2xvcl9pZGVudGl0eSgpICsgIFxuICBsYWJzKFxuICAgIHRpdGxlID0gXCJIb3cgVmlzdWFsaXphdGlvbiBUeXBlIEFmZmVjdHMgV2lsbGluZ25lc3MgdG8gUGF5XCIsXG4gICAgc3VidGl0bGUgPSBcIk1lYW4gYW5kIDk1JSBDSSBhcmUgZGlzcGxheWVkXCIsXG4gICAgeCA9IFwiR3JhcGggdHlwZSB2aWV3ZWQgLyBDb25kaXRpb25cIiwgXG4gICAgeSA9IFwiV2lsbGluZ25lc3MgdG8gcGF5XCJcbiAgKSArXG4gIHRoZW1lX2J3KCkgIn0=
+</script>
 </div>
 </section>
 <section id="step-3-state-the-null-and-alternative-hypothesis" class="level2">
@@ -513,183 +394,40 @@ window.Quarto = {
 <section id="step-4-mimic-the-sampling-distribution-for-the-difference-in-group-means-under-the-null-hypothesis" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-mimic-the-sampling-distribution-for-the-difference-in-group-means-under-the-null-hypothesis">Step 4: Mimic the sampling distribution for the difference in group means under the null hypothesis</h2>
 <p>Using permutations, we can approximate the sampling distribution of the difference in willingness to pay between the two groups under the null hypothesis. Press  <strong>Run Code</strong>  to perform 5,000 permutations, calculating the mean willingness to pay for each shuffled group in every iteration.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define number of permutations</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>n_permutations <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create permutations</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>permutation_list <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_permutations, {</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  my_groups <span class="sc">|&gt;</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">original_group =</span> group,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">shuffled_group =</span> <span class="fu">sample</span>(group)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(wtp_final, original_group, shuffled_group)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>}, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<div id="webr-6" class="exercise-cell">
+
+</div>
+<script type="webr-6-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIGRlZmluZSBudW1iZXIgb2YgcGVybXV0YXRpb25zXG5uX3Blcm11dGF0aW9ucyA8LSA1MDAwXG5cbiMgY3JlYXRlIHBlcm11dGF0aW9uc1xucGVybXV0YXRpb25fbGlzdCA8LSByZXBsaWNhdGUobl9wZXJtdXRhdGlvbnMsIHtcbiAgbXlfZ3JvdXBzIHw+XG4gICAgbXV0YXRlKFxuICAgICAgb3JpZ2luYWxfZ3JvdXAgPSBncm91cCxcbiAgICAgIHNodWZmbGVkX2dyb3VwID0gc2FtcGxlKGdyb3VwKVxuICAgICkgfD5cbiAgICBzZWxlY3Qod3RwX2ZpbmFsLCBvcmlnaW5hbF9ncm91cCwgc2h1ZmZsZWRfZ3JvdXApXG59LCBzaW1wbGlmeSA9IEZBTFNFKSJ9
+</script>
 </div>
 <p>The graphic below shows how permutation works. The first panel displays the original data with the true group assignments, and the next three panels illustrate the first three shuffles of those assignments. Notice that after shuffling, the group labels no longer carry real meaning — any patterns that emerge are purely due to chance.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add observed data as permutation 0</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>observed_df <span class="ot">&lt;-</span> my_groups <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">original_group =</span> group,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">shuffled_group =</span> group,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">permutation =</span> <span class="dv">0</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(permutation, wtp_final, original_group, shuffled_group)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># combine observed + permuted</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  observed_df,</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(permutation_list, <span class="at">.id =</span> <span class="st">"permutation"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">permutation =</span> <span class="fu">as.integer</span>(permutation))</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># select a subset (observed + 3 permutations)</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>output_subset <span class="ot">&lt;-</span> output <span class="sc">|&gt;</span> </span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(permutation <span class="sc">%in%</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>) </span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># compute group means for crossbars</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> output_subset <span class="sc">|&gt;</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(permutation, shuffled_group) <span class="sc">|&gt;</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_wtp =</span> <span class="fu">mean</span>(wtp_final), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>output_subset <span class="sc">|&gt;</span> </span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> shuffled_group, <span class="at">y =</span> wtp_final, <span class="at">color =</span> original_group)) <span class="sc">+</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> .<span class="dv">5</span>, <span class="at">width =</span> <span class="fl">0.3</span>, <span class="at">height =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_crossbar</span>(</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> means,</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> shuffled_group, <span class="at">y =</span> mean_wtp, <span class="at">ymin =</span> mean_wtp, <span class="at">ymax =</span> mean_wtp),</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="fl">0.7</span>,</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"black"</span>,</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">linewidth =</span> <span class="dv">1</span>  </span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">nrow =</span> <span class="dv">1</span>, <span class="fu">vars</span>(permutation), <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">permutation =</span> <span class="fu">c</span>(</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Observed Data"</span>,</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Permutation 1"</span>,</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">2</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Permutation 2"</span>,</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">3</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Permutation 3"</span></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>  ))) <span class="sc">+</span></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(</span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B"</span> <span class="ot">=</span> <span class="st">"#f6a27b"</span>,</span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>      <span class="st">"A"</span> <span class="ot">=</span> <span class="st">"#7bcff6"</span></span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Visualizing Observed and Permuted Group Assignments"</span>,</span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"First panel shows the real data; remaining panels show shuffled labels"</span>,</span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Black horizontal bar shows group mean"</span>,</span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Willingness to Pay"</span>,</span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Original Group"</span></span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>), </span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle    =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),                  </span>
-<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title       =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),                  </span>
-<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text        =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),                  </span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),                  </span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text       =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
-<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position  =</span> <span class="st">"bottom"</span></span>
-<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="UseR2025_webRactivity_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
+<div id="webr-7" class="exercise-cell">
+
 </div>
-</div>
+<script type="webr-7-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy5oZWlnaHQiOjgsImZpZy53aWR0aCI6MTJ9LCJjb2RlIjoiXG4jIGFkZCBvYnNlcnZlZCBkYXRhIGFzIHBlcm11dGF0aW9uIDBcbm9ic2VydmVkX2RmIDwtIG15X2dyb3VwcyB8PlxuICBtdXRhdGUoXG4gICAgb3JpZ2luYWxfZ3JvdXAgPSBncm91cCxcbiAgICBzaHVmZmxlZF9ncm91cCA9IGdyb3VwLFxuICAgIHBlcm11dGF0aW9uID0gMFxuICApIHw+XG4gIHNlbGVjdChwZXJtdXRhdGlvbiwgd3RwX2ZpbmFsLCBvcmlnaW5hbF9ncm91cCwgc2h1ZmZsZWRfZ3JvdXApXG5cbiMgY29tYmluZSBvYnNlcnZlZCArIHBlcm11dGVkXG5vdXRwdXQgPC0gYmluZF9yb3dzKFxuICBvYnNlcnZlZF9kZixcbiAgYmluZF9yb3dzKHBlcm11dGF0aW9uX2xpc3QsIC5pZCA9IFwicGVybXV0YXRpb25cIikgfD5cbiAgICBtdXRhdGUocGVybXV0YXRpb24gPSBhcy5pbnRlZ2VyKHBlcm11dGF0aW9uKSlcbilcblxuIyBzZWxlY3QgYSBzdWJzZXQgKG9ic2VydmVkICsgMyBwZXJtdXRhdGlvbnMpXG5vdXRwdXRfc3Vic2V0IDwtIG91dHB1dCB8PiBcbiAgZmlsdGVyKHBlcm11dGF0aW9uICVpbiUgMDozKSBcblxuIyBjb21wdXRlIGdyb3VwIG1lYW5zIGZvciBjcm9zc2JhcnNcbm1lYW5zIDwtIG91dHB1dF9zdWJzZXQgfD5cbiAgZ3JvdXBfYnkocGVybXV0YXRpb24sIHNodWZmbGVkX2dyb3VwKSB8PlxuICBzdW1tYXJpc2UobWVhbl93dHAgPSBtZWFuKHd0cF9maW5hbCksIC5ncm91cHMgPSBcImRyb3BcIilcblxuIyBwbG90XG5vdXRwdXRfc3Vic2V0IHw+IFxuICBnZ3Bsb3QobWFwcGluZyA9IGFlcyh4ID0gc2h1ZmZsZWRfZ3JvdXAsIHkgPSB3dHBfZmluYWwsIGNvbG9yID0gb3JpZ2luYWxfZ3JvdXApKSArXG4gIGdlb21faml0dGVyKGFscGhhID0gLjUsIHdpZHRoID0gMC4zLCBoZWlnaHQgPSAwKSArXG4gIGdlb21fY3Jvc3NiYXIoXG4gIGRhdGEgPSBtZWFucyxcbiAgbWFwcGluZyA9IGFlcyh4ID0gc2h1ZmZsZWRfZ3JvdXAsIHkgPSBtZWFuX3d0cCwgeW1pbiA9IG1lYW5fd3RwLCB5bWF4ID0gbWVhbl93dHApLFxuICBpbmhlcml0LmFlcyA9IEZBTFNFLFxuICB3aWR0aCA9IDAuNyxcbiAgY29sb3IgPSBcImJsYWNrXCIsXG4gIGxpbmV3aWR0aCA9IDEgIFxuKSArXG4gIGZhY2V0X3dyYXAobnJvdyA9IDEsIHZhcnMocGVybXV0YXRpb24pLCBsYWJlbGxlciA9IGxhYmVsbGVyKHBlcm11dGF0aW9uID0gYyhcbiAgICBgMGAgPSBcIk9ic2VydmVkIERhdGFcIixcbiAgICBgMWAgPSBcIlBlcm11dGF0aW9uIDFcIixcbiAgICBgMmAgPSBcIlBlcm11dGF0aW9uIDJcIixcbiAgICBgM2AgPSBcIlBlcm11dGF0aW9uIDNcIlxuICApKSkgK1xuICBzY2FsZV9jb2xvcl9tYW51YWwoXG4gICAgdmFsdWVzID0gYyhcbiAgICAgIFwiQlwiID0gXCIjZjZhMjdiXCIsXG4gICAgICBcIkFcIiA9IFwiIzdiY2ZmNlwiXG4gICAgKVxuICApICtcbiAgdGhlbWVfYncoKSArXG4gIGxhYnMoXG4gICAgdGl0bGUgPSBcIlZpc3VhbGl6aW5nIE9ic2VydmVkIGFuZCBQZXJtdXRlZCBHcm91cCBBc3NpZ25tZW50c1wiLFxuICAgIHN1YnRpdGxlID0gXCJGaXJzdCBwYW5lbCBzaG93cyB0aGUgcmVhbCBkYXRhOyByZW1haW5pbmcgcGFuZWxzIHNob3cgc2h1ZmZsZWQgbGFiZWxzXCIsXG4gICAgY2FwdGlvbiA9IFwiQmxhY2sgaG9yaXpvbnRhbCBiYXIgc2hvd3MgZ3JvdXAgbWVhblwiLFxuICAgIHggPSBcIlwiLFxuICAgIHkgPSBcIldpbGxpbmduZXNzIHRvIFBheVwiLFxuICAgIGNvbG9yID0gXCJPcmlnaW5hbCBHcm91cFwiXG4gICkgK1xuICB0aGVtZV9idygpICtcbiAgdGhlbWUoXG4gICAgcGxvdC50aXRsZSAgICAgICA9IGVsZW1lbnRfdGV4dChzaXplID0gMTYsIGZhY2UgPSBcImJvbGRcIiksIFxuICAgIHBsb3Quc3VidGl0bGUgICAgPSBlbGVtZW50X3RleHQoc2l6ZSA9IDE0KSwgICAgICAgICAgICAgICAgICBcbiAgICBheGlzLnRpdGxlICAgICAgID0gZWxlbWVudF90ZXh0KHNpemUgPSAxMiksICAgICAgICAgICAgICAgICAgXG4gICAgYXhpcy50ZXh0ICAgICAgICA9IGVsZW1lbnRfdGV4dChzaXplID0gMTApLCAgICAgICAgICAgICAgICAgIFxuICAgIGxlZ2VuZC50ZXh0ICAgICAgPSBlbGVtZW50X3RleHQoc2l6ZSA9IDEwKSwgICAgICAgICAgICAgICAgICBcbiAgICBsZWdlbmQudGl0bGUgICAgID0gZWxlbWVudF90ZXh0KHNpemUgPSAxMiksXG4gICAgcGxvdC5jYXB0aW9uICAgICA9IGVsZW1lbnRfdGV4dChzaXplID0gMTIpLFxuICAgIHN0cmlwLnRleHQgICAgICAgPSBlbGVtZW50X3RleHQoc2l6ZSA9IDEyKSxcbiAgICBsZWdlbmQucG9zaXRpb24gID0gXCJib3R0b21cIlxuICApICJ9
+</script>
 </div>
 <p>Next, we’ll calculate the difference in mean willingness to pay between the two groups for every permutation. This value, which we’ll call <strong>null_diff</strong>, reflects the difference between the shuffled (randomized) group assignments in that permutation — not the real experimental conditions. Click <strong>Run Code</strong> to generate <strong>null_diff</strong> for all permutations</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn list into a df</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df_permutations <span class="ot">&lt;-</span> permutation_list <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute group means for each permutation</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(<span class="cf">function</span>(df) {</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">|&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(shuffled_group) <span class="sc">|&gt;</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">mean_under_null =</span> <span class="fu">mean</span>(wtp_final), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  }) <span class="sc">|&gt;</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"permutation"</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># compute mean difference in each permutation</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>mean_diff_permutations <span class="ot">&lt;-</span> </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  df_permutations <span class="sc">|&gt;</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> shuffled_group, <span class="at">values_from =</span> mean_under_null) <span class="sc">|&gt;</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">null_diff =</span> <span class="st">`</span><span class="at">B</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">A</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(permutation, null_diff)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>mean_diff_permutations <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
-   permutation null_diff
-   &lt;chr&gt;           &lt;dbl&gt;
- 1 1                3.23
- 2 2               -2.87
- 3 3                6.52
- 4 4                4.43
- 5 5                7.76
- 6 6               -3.08
- 7 7                1.98
- 8 8                4.92
- 9 9               -5.00
-10 10               7.73</code></pre>
+<div>
+<div id="webr-8" class="exercise-cell">
+
 </div>
+<script type="webr-8-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIHR1cm4gbGlzdCBpbnRvIGEgZGZcbmRmX3Blcm11dGF0aW9ucyA8LSBwZXJtdXRhdGlvbl9saXN0IHw+XG4gICMgQ29tcHV0ZSBncm91cCBtZWFucyBmb3IgZWFjaCBwZXJtdXRhdGlvblxuICBsYXBwbHkoZnVuY3Rpb24oZGYpIHtcbiAgICBkZiB8PlxuICAgICAgZ3JvdXBfYnkoc2h1ZmZsZWRfZ3JvdXApIHw+XG4gICAgICBzdW1tYXJpc2UobWVhbl91bmRlcl9udWxsID0gbWVhbih3dHBfZmluYWwpLCAuZ3JvdXBzID0gXCJkcm9wXCIpXG4gIH0pIHw+XG4gIGJpbmRfcm93cyguaWQgPSBcInBlcm11dGF0aW9uXCIpXG5cbiMgY29tcHV0ZSBtZWFuIGRpZmZlcmVuY2UgaW4gZWFjaCBwZXJtdXRhdGlvblxubWVhbl9kaWZmX3Blcm11dGF0aW9ucyA8LSBcbiAgZGZfcGVybXV0YXRpb25zIHw+XG4gIHBpdm90X3dpZGVyKG5hbWVzX2Zyb20gPSBzaHVmZmxlZF9ncm91cCwgdmFsdWVzX2Zyb20gPSBtZWFuX3VuZGVyX251bGwpIHw+XG4gIG11dGF0ZShudWxsX2RpZmYgPSBgQmAgLSBgQWApIHw+XG4gIHNlbGVjdChwZXJtdXRhdGlvbiwgbnVsbF9kaWZmKVxuXG5tZWFuX2RpZmZfcGVybXV0YXRpb25zIHw+IGhlYWQobiA9IDEwKSJ9
+</script>
 </div>
 <p>Now, we can visualize the expected difference in willingness to pay between the two groups under the null hypothesis.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get central 95% cutoffs</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>q_lower <span class="ot">&lt;-</span> <span class="fu">quantile</span>(mean_diff_permutations<span class="sc">$</span>null_diff, <span class="fl">0.025</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>q_upper <span class="ot">&lt;-</span> <span class="fu">quantile</span>(mean_diff_permutations<span class="sc">$</span>null_diff, <span class="fl">0.975</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># build a density data frame</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>dens_obj  <span class="ot">&lt;-</span> <span class="fu">density</span>(mean_diff_permutations<span class="sc">$</span>null_diff)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>density_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> dens_obj<span class="sc">$</span>x, <span class="at">y =</span> dens_obj<span class="sc">$</span>y)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># make the plot</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>mean_diff_permutations <span class="sc">|&gt;</span> </span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> null_diff)) <span class="sc">+</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># full density</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"#ECECEC"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># shaded middle 95%</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> density_df <span class="sc">|&gt;</span> <span class="fu">filter</span>(x <span class="sc">&gt;=</span> q_lower, x <span class="sc">&lt;=</span> q_upper),</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#D4D4D4"</span>,</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.6</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># annotation text</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">0</span>,</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">max</span>(density_df<span class="sc">$</span>y) <span class="sc">*</span> <span class="fl">0.125</span>,</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"If H₀ is true,</span><span class="sc">\n</span><span class="st">≈95% of permuted group </span><span class="sc">\n</span><span class="st">differences are expected </span><span class="sc">\n</span><span class="st">to fall in this region"</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                ),</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">family    =</span> <span class="st">"sans"</span>,</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">size      =</span> <span class="dv">4</span>,</span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">lineheight=</span> <span class="fl">0.9</span>,</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust     =</span> <span class="fl">0.5</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Empirical Null Distribution of Condition Differences"</span>,</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Difference in willingness to pay between the two conditions (B - A)"</span>,</span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">"Density"</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="UseR2025_webRactivity_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div id="webr-9" class="exercise-cell">
+
 </div>
-</div>
+<script type="webr-9-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIGdldCBjZW50cmFsIDk1JSBjdXRvZmZzXG5xX2xvd2VyIDwtIHF1YW50aWxlKG1lYW5fZGlmZl9wZXJtdXRhdGlvbnMkbnVsbF9kaWZmLCAwLjAyNSlcbnFfdXBwZXIgPC0gcXVhbnRpbGUobWVhbl9kaWZmX3Blcm11dGF0aW9ucyRudWxsX2RpZmYsIDAuOTc1KVxuXG4jIGJ1aWxkIGEgZGVuc2l0eSBkYXRhIGZyYW1lXG5kZW5zX29iaiAgPC0gZGVuc2l0eShtZWFuX2RpZmZfcGVybXV0YXRpb25zJG51bGxfZGlmZilcbmRlbnNpdHlfZGYgPC0gZGF0YS5mcmFtZSh4ID0gZGVuc19vYmokeCwgeSA9IGRlbnNfb2JqJHkpXG5cbiMgbWFrZSB0aGUgcGxvdFxubWVhbl9kaWZmX3Blcm11dGF0aW9ucyB8PiBcbiAgZ2dwbG90KG1hcHBpbmcgPSBhZXMoeCA9IG51bGxfZGlmZikpICtcbiAgIyBmdWxsIGRlbnNpdHlcbiAgZ2VvbV9kZW5zaXR5KGZpbGwgPSBcIiNFQ0VDRUNcIiwgYWxwaGEgPSAwLjUpICtcbiAgIyBzaGFkZWQgbWlkZGxlIDk1JVxuICBnZW9tX2FyZWEoXG4gICAgZGF0YSA9IGRlbnNpdHlfZGYgfD4gZmlsdGVyKHggPj0gcV9sb3dlciwgeCA8PSBxX3VwcGVyKSxcbiAgICBtYXBwaW5nID0gYWVzKHggPSB4LCB5ID0geSksXG4gICAgZmlsbCA9IFwiI0Q0RDRENFwiLFxuICAgIGFscGhhID0gMC42XG4gICkgK1xuICAjIGFubm90YXRpb24gdGV4dFxuICBhbm5vdGF0ZShcbiAgICBcInRleHRcIixcbiAgICB4ID0gMCxcbiAgICB5ID0gbWF4KGRlbnNpdHlfZGYkeSkgKiAwLjEyNSxcbiAgICBsYWJlbCA9IHBhc3RlMChcIklmIEjigoAgaXMgdHJ1ZSxcXG7iiYg5NSUgb2YgcGVybXV0ZWQgZ3JvdXAgXFxuZGlmZmVyZW5jZXMgYXJlIGV4cGVjdGVkIFxcbnRvIGZhbGwgaW4gdGhpcyByZWdpb25cIlxuICAgICAgICAgICAgICAgICksXG4gICAgZmFtaWx5ICAgID0gXCJzYW5zXCIsXG4gICAgc2l6ZSAgICAgID0gNCxcbiAgICBsaW5laGVpZ2h0PSAwLjksXG4gICAgaGp1c3QgICAgID0gMC41XG4gICkgK1xuICBsYWJzKFxuICAgIHRpdGxlID0gXCJFbXBpcmljYWwgTnVsbCBEaXN0cmlidXRpb24gb2YgQ29uZGl0aW9uIERpZmZlcmVuY2VzXCIsXG4gICAgeCAgICAgPSBcIkRpZmZlcmVuY2UgaW4gd2lsbGluZ25lc3MgdG8gcGF5IGJldHdlZW4gdGhlIHR3byBjb25kaXRpb25zIChCIC0gQSlcIixcbiAgICB5ICAgICA9IFwiRGVuc2l0eVwiXG4gICkgK1xuICB0aGVtZV9idygpIn0=
+</script>
 </div>
 <blockquote class="blockquote">
 <p>Earlier, you calculated the observed difference in willingness to pay between your two selected conditions. Locate that value on the x‑axis of the null distribution and consider: How extreme is this difference compared to what we would expect if the null hypothesis were true?</p>
@@ -719,38 +457,25 @@ window.Quarto = {
 <li><p><strong>Count the extreme cases</strong> to determine the fraction of permutations that are as extreme or more extreme than what we observed.</p></li>
 </ol>
 <p>Press <strong>Run Code</strong> to tally the number of extreme samples.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mean_diff_permutations <span class="ot">&lt;-</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  mean_diff_permutations  <span class="sc">|&gt;</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">extreme_diff =</span> <span class="fu">case_when</span>(<span class="fu">abs</span>(null_diff) <span class="sc">&gt;=</span> <span class="fu">abs</span>(observed_diff) <span class="sc">~</span> <span class="st">"extreme"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"not extreme"</span>)) </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># tally the extreme versus not extreme permutations.</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>mean_diff_permutations <span class="sc">|&gt;</span> <span class="fu">count</span>(extreme_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-  extreme_diff     n
-  &lt;chr&gt;        &lt;int&gt;
-1 extreme       1128
-2 not extreme   3872</code></pre>
+<div>
+<div id="webr-10" class="exercise-cell">
+
 </div>
+<script type="webr-10-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5tZWFuX2RpZmZfcGVybXV0YXRpb25zIDwtIFxuICBtZWFuX2RpZmZfcGVybXV0YXRpb25zICB8PiBcbiAgbXV0YXRlKGV4dHJlbWVfZGlmZiA9IGNhc2Vfd2hlbihhYnMobnVsbF9kaWZmKSA+PSBhYnMob2JzZXJ2ZWRfZGlmZikgfiBcImV4dHJlbWVcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBUUlVFIH4gXCJub3QgZXh0cmVtZVwiKSkgXG5cbiMgdGFsbHkgdGhlIGV4dHJlbWUgdmVyc3VzIG5vdCBleHRyZW1lIHBlcm11dGF0aW9ucy5cbm1lYW5fZGlmZl9wZXJtdXRhdGlvbnMgfD4gY291bnQoZXh0cmVtZV9kaWZmKSJ9
+</script>
 </div>
 <p>&gt;What proportion of the permuted differences are as extreme as our observed difference?</p>
 <p>From our tally, we can compute the <strong>fraction of permutations</strong> where the absolute difference in means is <strong>at least as large as the observed difference</strong> between the real groups.</p>
 <p>This fraction is our <strong>empirical <em>p</em>‑value</strong> — the probability of seeing a difference this extreme <strong>if the null hypothesis were true</strong>.</p>
 <p>A <strong>small <em>p</em>‑value</strong> means that such an extreme result would be <strong>unlikely by chance alone</strong>, providing <strong>evidence against the null</strong> and suggesting a possible real difference between the groups.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count extreme permutations (where |null_diff| ≥ |observed_diff|)</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(mean_diff_permutations<span class="sc">$</span>null_diff) <span class="sc">&gt;=</span> <span class="fu">abs</span>(observed_diff))</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># format for reporting</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"p = %.3f (%.1f%% of %d permutations)"</span>, </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            p_value, </span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="dv">100</span><span class="sc">*</span>p_value, </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">nrow</span>(mean_diff_permutations)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>p = 0.226 (22.6% of 5000 permutations)</code></pre>
+<div>
+<div id="webr-11" class="exercise-cell">
+
 </div>
+<script type="webr-11-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIGNvdW50IGV4dHJlbWUgcGVybXV0YXRpb25zICh3aGVyZSB8bnVsbF9kaWZmfCDiiaUgfG9ic2VydmVkX2RpZmZ8KVxucF92YWx1ZSA8LSBtZWFuKGFicyhtZWFuX2RpZmZfcGVybXV0YXRpb25zJG51bGxfZGlmZikgPj0gYWJzKG9ic2VydmVkX2RpZmYpKVxuXG4jIGZvcm1hdCBmb3IgcmVwb3J0aW5nXG5jYXQoc3ByaW50ZihcInAgPSAlLjNmICglLjFmJSUgb2YgJWQgcGVybXV0YXRpb25zKVwiLCBcbiAgICAgICAgICAgIHBfdmFsdWUsIFxuICAgICAgICAgICAgMTAwKnBfdmFsdWUsIFxuICAgICAgICAgICAgbnJvdyhtZWFuX2RpZmZfcGVybXV0YXRpb25zKSkpIn0=
+</script>
 </div>
 </section>
 <section id="step-6-compute-the-standard-deviation-of-the-null-distribution" class="level2">
@@ -758,19 +483,13 @@ window.Quarto = {
 <p>The <strong>standard error (SE)</strong> reflects how much the mean difference in willingness to pay would <strong>vary by chance</strong> due to random sampling.</p>
 <p>In a permutation test, we can estimate this by calculating the <strong>standard deviation of the mean differences</strong> across all 5,000 shuffled datasets. This gives us the <strong>spread of differences we’d expect under the null hypothesis</strong>, showing the typical variation if there were <strong>no real effect</strong>.</p>
 <p>Press <strong>Run Code</strong> to compute the standard error.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  mean_diff_permutations <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sd_null_dist =</span> <span class="fu">sd</span>(null_diff)) <span class="sc">|&gt;</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># format for reporting</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Standard Error (SE) (i.e., SD of null distribution):"</span>, </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, se), </span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Standard Error (SE) (i.e., SD of null distribution): 4.68 </code></pre>
+<div>
+<div id="webr-12" class="exercise-cell">
+
 </div>
+<script type="webr-12-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5zZSA8LVxuICBtZWFuX2RpZmZfcGVybXV0YXRpb25zIHw+IFxuICBzdW1tYXJpemUoc2RfbnVsbF9kaXN0ID0gc2QobnVsbF9kaWZmKSkgfD4gXG4gIHB1bGwoKVxuXG4jIGZvcm1hdCBmb3IgcmVwb3J0aW5nXG5jYXQoXCJTdGFuZGFyZCBFcnJvciAoU0UpIChpLmUuLCBTRCBvZiBudWxsIGRpc3RyaWJ1dGlvbik6XCIsIFxuICAgIHNwcmludGYoXCIlLjJmXCIsIHNlKSwgXG4gICAgXCJcXG5cIikifQ==
+</script>
 </div>
 </section>
 <section id="step-7-calculate-a-test-statistic" class="level2">
@@ -788,99 +507,24 @@ window.Quarto = {
 t = \frac{(\bar{x}_B - \bar{x}_A) - 0}{SE}
 \]</span></p>
 <p>Press <strong>Run Code</strong> on the code chunk below to compute the standardized test statistic.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>std_test_statistic <span class="ot">=</span> observed_diff<span class="sc">/</span>se</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># format for reporting</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Standardized test statistic:"</span>, </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, std_test_statistic), </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Standardized test statistic: 1.22 </code></pre>
+<div>
+<div id="webr-13" class="exercise-cell">
+
 </div>
+<script type="webr-13-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5zdGRfdGVzdF9zdGF0aXN0aWMgPSBvYnNlcnZlZF9kaWZmL3NlXG4gICAgXG4jIGZvcm1hdCBmb3IgcmVwb3J0aW5nXG5jYXQoXCJTdGFuZGFyZGl6ZWQgdGVzdCBzdGF0aXN0aWM6XCIsIFxuICAgIHNwcmludGYoXCIlLjJmXCIsIHN0ZF90ZXN0X3N0YXRpc3RpYyksIFxuICAgIFwiXFxuXCIpIn0=
+</script>
 </div>
 <p>We can visualize where our <strong>observed standardized test statistic</strong> falls relative to the <strong>null distribution</strong> — the distribution of standardized differences we would expect if there were truly <strong>no difference</strong> between the groups.</p>
 <p>The shaded middle region represents the <strong>95% of null test statistics</strong> that are closest to zero. If our observed statistic lands <strong>far in the tails</strong>, it’s unlikely under the null hypothesis — exactly what a <em>p</em>‑value quantifies.</p>
 <p>Press <strong>Run Code</strong> on the code chunk below to produce the graphic.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># observed standardized test statistic</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>std_test_statistic  <span class="ot">&lt;-</span> observed_diff <span class="sc">/</span> se</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># null statistics standardized</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>std_mean_diff_permutations <span class="ot">&lt;-</span> </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  mean_diff_permutations <span class="sc">|&gt;</span> </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">std_null_diff =</span> null_diff <span class="sc">/</span> se)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># central 95% cutoffs</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>q_lower <span class="ot">&lt;-</span> <span class="fu">quantile</span>(std_mean_diff_permutations<span class="sc">$</span>std_null_diff, <span class="fl">0.025</span>)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>q_upper <span class="ot">&lt;-</span> <span class="fu">quantile</span>(std_mean_diff_permutations<span class="sc">$</span>std_null_diff, <span class="fl">0.975</span>)</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># density data frame</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>dens_obj  <span class="ot">&lt;-</span> <span class="fu">density</span>(std_mean_diff_permutations<span class="sc">$</span>std_null_diff)</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>density_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> dens_obj<span class="sc">$</span>x, <span class="at">y =</span> dens_obj<span class="sc">$</span>y)</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co"># dynamically create observed label</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>label_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> std_test_statistic,</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">max</span>(density_df<span class="sc">$</span>y) <span class="sc">*</span> <span class="fl">0.6</span>,</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">sprintf</span>(</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Observed </span><span class="sc">\n</span><span class="st">standardized </span><span class="sc">\n</span><span class="st">test statistic</span><span class="sc">\n</span><span class="st"> %.2f / %.2f = %.2f"</span>,</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    observed_diff, se, std_test_statistic</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="co"># make the plot</span></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(std_mean_diff_permutations, <span class="fu">aes</span>(<span class="at">x =</span> std_null_diff)) <span class="sc">+</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"#ECECEC"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(</span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> density_df <span class="sc">|&gt;</span> <span class="fu">filter</span>(x <span class="sc">&gt;=</span> q_lower, x <span class="sc">&lt;=</span> q_upper),</span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y),</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#D4D4D4"</span>,</span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.6</span></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">0</span>,</span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">max</span>(density_df<span class="sc">$</span>y) <span class="sc">*</span> <span class="fl">0.125</span>,</span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"If H₀ is true,</span><span class="sc">\n</span><span class="st">≈95% of standardized </span><span class="sc">\n</span><span class="st">test statistics</span><span class="sc">\n</span><span class="st">will fall in this region"</span>),</span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"sans"</span>,</span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span>,</span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">lineheight =</span> <span class="fl">0.9</span>,</span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="fl">0.5</span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">"segment"</span>,</span>
-<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> std_test_statistic,</span>
-<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> std_test_statistic,</span>
-<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">max</span>(density_df<span class="sc">$</span>y) <span class="sc">*</span> <span class="fl">0.5</span>,</span>
-<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">0</span>,</span>
-<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">"cm"</span>), <span class="at">type =</span> <span class="st">"closed"</span>),</span>
-<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#7bc043"</span></span>
-<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(</span>
-<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> label_df,       </span>
-<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> label),</span>
-<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">alpha</span>(<span class="st">"white"</span>), </span>
-<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#7bc043"</span>,</span>
-<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">"bold"</span>,</span>
-<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"sans"</span>,</span>
-<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span></span>
-<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">min</span>(density_df<span class="sc">$</span>x) <span class="sc">-</span> <span class="dv">1</span>, <span class="fu">max</span>(density_df<span class="sc">$</span>x) <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Empirical Null Distribution of Condition Differences (Standardized)"</span>,</span>
-<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Standardized null test statistic (difference between conditions / SE)"</span>,</span>
-<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Density"</span></span>
-<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="UseR2025_webRactivity_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div id="webr-14" class="exercise-cell">
+
 </div>
-</div>
+<script type="webr-14-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG4jIG9ic2VydmVkIHN0YW5kYXJkaXplZCB0ZXN0IHN0YXRpc3RpY1xuc3RkX3Rlc3Rfc3RhdGlzdGljICA8LSBvYnNlcnZlZF9kaWZmIC8gc2VcblxuIyBudWxsIHN0YXRpc3RpY3Mgc3RhbmRhcmRpemVkXG5zdGRfbWVhbl9kaWZmX3Blcm11dGF0aW9ucyA8LSBcbiAgbWVhbl9kaWZmX3Blcm11dGF0aW9ucyB8PiBcbiAgbXV0YXRlKHN0ZF9udWxsX2RpZmYgPSBudWxsX2RpZmYgLyBzZSlcblxuIyBjZW50cmFsIDk1JSBjdXRvZmZzXG5xX2xvd2VyIDwtIHF1YW50aWxlKHN0ZF9tZWFuX2RpZmZfcGVybXV0YXRpb25zJHN0ZF9udWxsX2RpZmYsIDAuMDI1KVxucV91cHBlciA8LSBxdWFudGlsZShzdGRfbWVhbl9kaWZmX3Blcm11dGF0aW9ucyRzdGRfbnVsbF9kaWZmLCAwLjk3NSlcblxuIyBkZW5zaXR5IGRhdGEgZnJhbWVcbmRlbnNfb2JqICA8LSBkZW5zaXR5KHN0ZF9tZWFuX2RpZmZfcGVybXV0YXRpb25zJHN0ZF9udWxsX2RpZmYpXG5kZW5zaXR5X2RmIDwtIGRhdGEuZnJhbWUoeCA9IGRlbnNfb2JqJHgsIHkgPSBkZW5zX29iaiR5KVxuXG4jIGR5bmFtaWNhbGx5IGNyZWF0ZSBvYnNlcnZlZCBsYWJlbFxubGFiZWxfZGYgPC0gZGF0YS5mcmFtZShcbiAgeCA9IHN0ZF90ZXN0X3N0YXRpc3RpYyxcbiAgeSA9IG1heChkZW5zaXR5X2RmJHkpICogMC42LFxuICBsYWJlbCA9IHNwcmludGYoXG4gICAgXCJPYnNlcnZlZCBcXG5zdGFuZGFyZGl6ZWQgXFxudGVzdCBzdGF0aXN0aWNcXG4gJS4yZiAvICUuMmYgPSAlLjJmXCIsXG4gICAgb2JzZXJ2ZWRfZGlmZiwgc2UsIHN0ZF90ZXN0X3N0YXRpc3RpY1xuICApXG4pXG5cbiMgbWFrZSB0aGUgcGxvdFxuZ2dwbG90KHN0ZF9tZWFuX2RpZmZfcGVybXV0YXRpb25zLCBhZXMoeCA9IHN0ZF9udWxsX2RpZmYpKSArXG4gIGdlb21fZGVuc2l0eShmaWxsID0gXCIjRUNFQ0VDXCIsIGFscGhhID0gMC41KSArXG4gIGdlb21fYXJlYShcbiAgICBkYXRhID0gZGVuc2l0eV9kZiB8PiBmaWx0ZXIoeCA+PSBxX2xvd2VyLCB4IDw9IHFfdXBwZXIpLFxuICAgIG1hcHBpbmcgPSBhZXMoeCA9IHgsIHkgPSB5KSxcbiAgICBmaWxsID0gXCIjRDRENEQ0XCIsXG4gICAgYWxwaGEgPSAwLjZcbiAgKSArXG4gIGFubm90YXRlKFxuICAgIFwidGV4dFwiLFxuICAgIHggPSAwLFxuICAgIHkgPSBtYXgoZGVuc2l0eV9kZiR5KSAqIDAuMTI1LFxuICAgIGxhYmVsID0gcGFzdGUwKFwiSWYgSOKCgCBpcyB0cnVlLFxcbuKJiDk1JSBvZiBzdGFuZGFyZGl6ZWQgXFxudGVzdCBzdGF0aXN0aWNzXFxud2lsbCBmYWxsIGluIHRoaXMgcmVnaW9uXCIpLFxuICAgIGZhbWlseSA9IFwic2Fuc1wiLFxuICAgIHNpemUgPSA0LFxuICAgIGxpbmVoZWlnaHQgPSAwLjksXG4gICAgaGp1c3QgPSAwLjVcbiAgKSArXG4gIGFubm90YXRlKFxuICAgIFwic2VnbWVudFwiLFxuICAgIHggPSBzdGRfdGVzdF9zdGF0aXN0aWMsXG4gICAgeGVuZCA9IHN0ZF90ZXN0X3N0YXRpc3RpYyxcbiAgICB5ID0gbWF4KGRlbnNpdHlfZGYkeSkgKiAwLjUsXG4gICAgeWVuZCA9IDAsXG4gICAgYXJyb3cgPSBhcnJvdyhsZW5ndGggPSB1bml0KDAuMiwgXCJjbVwiKSwgdHlwZSA9IFwiY2xvc2VkXCIpLFxuICAgIGNvbG9yID0gXCIjN2JjMDQzXCJcbiAgKSArXG4gIGdlb21fbGFiZWwoXG4gICAgZGF0YSA9IGxhYmVsX2RmLCAgICAgICBcbiAgICBtYXBwaW5nID0gYWVzKHggPSB4LCB5ID0geSwgbGFiZWwgPSBsYWJlbCksXG4gICAgaW5oZXJpdC5hZXMgPSBGQUxTRSxcbiAgICBmaWxsID0gYWxwaGEoXCJ3aGl0ZVwiKSwgXG4gICAgY29sb3IgPSBcIiM3YmMwNDNcIixcbiAgICBmb250ZmFjZSA9IFwiYm9sZFwiLFxuICAgIGZhbWlseSA9IFwic2Fuc1wiLFxuICAgIHNpemUgPSA0XG4gICkgK1xuICB4bGltKG1pbihkZW5zaXR5X2RmJHgpIC0gMSwgbWF4KGRlbnNpdHlfZGYkeCkgKyAxKSArXG4gIGxhYnMoXG4gICAgdGl0bGUgPSBcIkVtcGlyaWNhbCBOdWxsIERpc3RyaWJ1dGlvbiBvZiBDb25kaXRpb24gRGlmZmVyZW5jZXMgKFN0YW5kYXJkaXplZClcIixcbiAgICB4ID0gXCJTdGFuZGFyZGl6ZWQgbnVsbCB0ZXN0IHN0YXRpc3RpYyAoZGlmZmVyZW5jZSBiZXR3ZWVuIGNvbmRpdGlvbnMgLyBTRSlcIixcbiAgICB5ID0gXCJEZW5zaXR5XCJcbiAgKSArXG4gIHRoZW1lX2J3KCkifQ==
+</script>
 </div>
 <p>On this graph, the darker gray area of the sampling distribution under the null denotes the critical boundaries, marking the middle 95% of the distribution. The green line shows the calculated standardized test statistic for the difference in willingness to pay between the two conditions that you selected, measured in standard errors from the null hypothesis value (0 — i.e., no difference between groups).</p>
 <ul>
@@ -915,18 +559,13 @@ t = \frac{(\bar{x}_B - \bar{x}_A) - 0}{SE}
 <li><p><span class="math inline">\(SE\)</span> is the standard error of the difference, calculated from the sample standard deviations and sample sizes of the groups. <span class="math inline">\(SE = \sqrt{\frac{s_A^2}{n_A} + \frac{s_B^2}{n_B}}\)</span>, where:<span class="math inline">\(s_A\)</span> and <span class="math inline">\(s_B\)</span> are the sample standard deviations for Groups A and B, <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_B\)</span> are the sample sizes for Groups A and B.</p></li>
 </ul>
 <p>Press <strong>Run Code</strong> on the code chunk below to compute the test.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>my_groups <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t_test</span>(wtp_final <span class="sc">~</span> group, </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"A"</span>),</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">alternative =</span> <span class="st">"two-sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 7
-  statistic  t_df p_value alternative estimate lower_ci upper_ci
-      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-1      1.22   468   0.224 two.sided       5.72    -3.51     14.9</code></pre>
+<div>
+<div id="webr-15" class="exercise-cell">
+
 </div>
+<script type="webr-15-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5teV9ncm91cHMgfD4gXG4gIHRfdGVzdCh3dHBfZmluYWwgfiBncm91cCwgXG4gICAgICAgICB2YXIuZXF1YWwgPSBUUlVFLFxuICAgICAgICAgb3JkZXIgPSBjKFwiQlwiLCBcIkFcIiksXG4gICAgICAgICBhbHRlcm5hdGl2ZSA9IFwidHdvLXNpZGVkXCIpIn0=
+</script>
 </div>
 <p>Notice the similarity between the <em>t</em>-statistic that we created using the permutations and the <em>t</em>-statistic in the <strong>t_test</strong> output (labeled statistic). Also, notice the similarity between the <em>p</em>-value that we created using the permutations and the <em>p</em>-value in the <strong>t_test</strong> output (labeled p_value).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -952,16 +591,13 @@ Tip
 <section id="step-9-test-the-hypothesis-with-a-simple-linear-regression" class="level2">
 <h2 class="anchored" data-anchor-id="step-9-test-the-hypothesis-with-a-simple-linear-regression">Step 9: Test the hypothesis with a simple linear regression</h2>
 <p>We can equivalently specify the two sample <em>t</em>-test as a simple linear regression. Here, we regress willingness to pay on the dummy coded indicator designed to compare Group B to Group A.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>slr <span class="ot">&lt;-</span> <span class="fu">lm</span>(wtp_final <span class="sc">~</span> groupB, <span class="at">data =</span> my_groups)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>slr <span class="sc">|&gt;</span> <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 7
-  term        estimate std.error statistic  p.value conf.low conf.high
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)    64.7       3.31     19.5  1.68e-62    58.2       71.2
-2 groupB          5.72      4.70      1.22 2.24e- 1    -3.51      14.9</code></pre>
+<div>
+<div id="webr-16" class="exercise-cell">
+
 </div>
+<script type="webr-16-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5zbHIgPC0gbG0od3RwX2ZpbmFsIH4gZ3JvdXBCLCBkYXRhID0gbXlfZ3JvdXBzKVxuc2xyIHw+IHRpZHkoY29uZi5pbnQgPSBUUlVFLCBjb25mLmxldmVsID0gLjk1KSJ9
+</script>
 </div>
 <p>Notice that the independent sample <em>t</em>-test and the simple linear regression produce IDENTICAL results for the difference in willingness to pay between the two groups. A two sample <em>t</em>-test and a simple linear regression in which the outcome is regressed on a grouping variable are equivalent models — you obtain the same result. In the regression output, the intercept gives the estimated mean willingness to pay for Group A, and the coefficient for groupB represents the difference in means (Group B − Group A).</p>
 </section>
@@ -994,8 +630,11 @@ Tip
 <p>By contrasting observed‐data uncertainty (confidence intervals) with null‐model variability (permutation intervals), you’ve gained a deeper intuition for how <em>p</em>-values and other core statistics arise — and, crucially, you’ve de-mystified some of the most confusing concepts in statistics (like <em>p</em>-values) by actually seeing and calculating them via simulation. You now have a flexible, assumption-lean tool in your toolkit to assess group differences — and a clear understanding of how it connects to the familiar <em>t</em>-test and regression frameworks. Happy analyzing!</p>
 
 
+<script type="webr-data">
+eyJvcHRpb25zIjp7ImJhc2VVcmwiOiJodHRwczovL3dlYnIuci13YXNtLm9yZy92MC41LjQvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsiZXZhbHVhdGUiLCJrbml0ciIsImh0bWx0b29scyIsImhlcmUiLCJicm9vbSIsImluZmVyIiwicHVycnIiLCJ0aWR5dmVyc2UiLCJybWFya2Rvd24iXSwicmVwb3MiOltdfSwicmVuZGVyX2RmIjoicGFnZWQtdGFibGUifQ==
+</script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xNiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTY7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xNiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzE2ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTYtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xNi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xNiA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMTYsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xNSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTU7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xNSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzE1ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTUtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xNS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xNSA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMTUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xNCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTQ7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xNCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzE0ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTQtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xNCA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMTQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTM7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzEzID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTMtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xMyA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMTMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTI7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzEyID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xMiA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMTIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTE7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzExID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTEtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xMSA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMTEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTA7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzEwID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTAtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xMC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xMCA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMTAsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC05IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV85O1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItOSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzkgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici05LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHdlYnItOS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV85ID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl85LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoid2Vici13aWRnZXQtOCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfODtcbiAgaWYgKHdpbmRvdy5IVE1MV2lkZ2V0cykge1xuICAgIHdpbmRvdy5IVE1MV2lkZ2V0cy5zdGF0aWNSZW5kZXIoKTtcbiAgfVxuICBpZiAod2luZG93LlBhZ2VkVGFibGVEb2MpIHtcbiAgICB3aW5kb3cuUGFnZWRUYWJsZURvYy5pbml0QWxsKCk7XG4gIH1cbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLTgiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF93ZWJyX2VkaXRvcl84ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItOC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGB3ZWJyLTgtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgV2ViUkV4ZXJjaXNlRWRpdG9yKHdlYlJPanMud2ViUlByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3dlYnJfdmFsdWVfOCA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfOCwge30pO1xuIn0seyJjZWxsTmFtZSI6IndlYnItd2lkZ2V0LTciLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIC8vIFdhaXQgZm9yIG91dHB1dCB0byBiZSB3cml0dGVuIHRvIHRoZSBET00sIHRoZW4gdHJpZ2dlciB3aWRnZXQgcmVuZGVyaW5nXG4gIGF3YWl0IF93ZWJyX3ZhbHVlXzc7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici03IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfd2Vicl9lZGl0b3JfNyA9IHtcbiAgY29uc3QgeyBXZWJSRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLTctY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici03LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFdlYlJFeGVyY2lzZUVkaXRvcih3ZWJST2pzLndlYlJQcm9taXNlLCBibG9jay5jb2RlLCBvcHRpb25zKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl93ZWJyX3ZhbHVlXzcgPSB3ZWJST2pzLnByb2Nlc3MoX3dlYnJfZWRpdG9yXzcsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC02IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV82O1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItNiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzYgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici02LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHdlYnItNi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV82ID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl82LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoid2Vici13aWRnZXQtNSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfNTtcbiAgaWYgKHdpbmRvdy5IVE1MV2lkZ2V0cykge1xuICAgIHdpbmRvdy5IVE1MV2lkZ2V0cy5zdGF0aWNSZW5kZXIoKTtcbiAgfVxuICBpZiAod2luZG93LlBhZ2VkVGFibGVEb2MpIHtcbiAgICB3aW5kb3cuUGFnZWRUYWJsZURvYy5pbml0QWxsKCk7XG4gIH1cbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF93ZWJyX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItNS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGB3ZWJyLTUtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgV2ViUkV4ZXJjaXNlRWRpdG9yKHdlYlJPanMud2ViUlByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3dlYnJfdmFsdWVfNSA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfNSwge30pO1xuIn0seyJjZWxsTmFtZSI6IndlYnItd2lkZ2V0LTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIC8vIFdhaXQgZm9yIG91dHB1dCB0byBiZSB3cml0dGVuIHRvIHRoZSBET00sIHRoZW4gdHJpZ2dlciB3aWRnZXQgcmVuZGVyaW5nXG4gIGF3YWl0IF93ZWJyX3ZhbHVlXzQ7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici00IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfd2Vicl9lZGl0b3JfNCA9IHtcbiAgY29uc3QgeyBXZWJSRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLTQtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici00LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFdlYlJFeGVyY2lzZUVkaXRvcih3ZWJST2pzLndlYlJQcm9taXNlLCBibG9jay5jb2RlLCBvcHRpb25zKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl93ZWJyX3ZhbHVlXzQgPSB3ZWJST2pzLnByb2Nlc3MoX3dlYnJfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0zIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV8zO1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzMgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHdlYnItMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8zID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8zLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoid2Vici13aWRnZXQtMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMjtcbiAgaWYgKHdpbmRvdy5IVE1MV2lkZ2V0cykge1xuICAgIHdpbmRvdy5IVE1MV2lkZ2V0cy5zdGF0aWNSZW5kZXIoKTtcbiAgfVxuICBpZiAod2luZG93LlBhZ2VkVGFibGVEb2MpIHtcbiAgICB3aW5kb3cuUGFnZWRUYWJsZURvYy5pbml0QWxsKCk7XG4gIH1cbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF93ZWJyX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGB3ZWJyLTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgV2ViUkV4ZXJjaXNlRWRpdG9yKHdlYlJPanMud2ViUlByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3dlYnJfdmFsdWVfMiA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMiwge30pO1xuIn0seyJjZWxsTmFtZSI6IndlYnItd2lkZ2V0LTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIC8vIFdhaXQgZm9yIG91dHB1dCB0byBiZSB3cml0dGVuIHRvIHRoZSBET00sIHRoZW4gdHJpZ2dlciB3aWRnZXQgcmVuZGVyaW5nXG4gIGF3YWl0IF93ZWJyX3ZhbHVlXzE7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfd2Vicl9lZGl0b3JfMSA9IHtcbiAgY29uc3QgeyBXZWJSRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLTEtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFdlYlJFeGVyY2lzZUVkaXRvcih3ZWJST2pzLndlYlJQcm9taXNlLCBibG9jay5jb2RlLCBvcHRpb25zKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl93ZWJyX3ZhbHVlXzEgPSB3ZWJST2pzLnByb2Nlc3MoX3dlYnJfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ3ZWJST2pzID0ge1xuICBjb25zdCB7IFdlYlIsIENoYW5uZWxUeXBlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lLldlYlI7XG4gIGNvbnN0IHtcbiAgICBXZWJSRXZhbHVhdG9yLFxuICAgIFdlYlJFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBSLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGhcbiAgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc3RhdHVzQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLXN0YXR1c1wiKTtcbiAgY29uc3QgaW5kaWNhdG9yQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaW5kaWNhdG9yQ29udGFpbmVyLmNsYXNzTGlzdC5yZW1vdmUoXCJkLW5vbmVcIik7XG5cbiAgbGV0IHN0YXR1c1RleHQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpXG4gIHN0YXR1c1RleHQuY2xhc3NMaXN0ID0gXCJleGVyY2lzZS1sb2FkaW5nLWRldGFpbHNcIjtcbiAgc3RhdHVzVGV4dCA9IHN0YXR1c0NvbnRhaW5lci5hcHBlbmRDaGlsZChzdGF0dXNUZXh0KTtcbiAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBJbml0aWFsaXNlYDtcblxuICAvLyBIb2lzdCBpbmRpY2F0b3Igb3V0IGZyb20gZmluYWwgc2xpZGUgd2hlbiBydW5uaW5nIHVuZGVyIHJldmVhbFxuICBjb25zdCByZXZlYWxTdGF0dXMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCAuZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGlmIChyZXZlYWxTdGF0dXMpIHtcbiAgICByZXZlYWxTdGF0dXMucmVtb3ZlKCk7XG4gICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgPiAuc2xpZGVzXCIpLmFwcGVuZENoaWxkKHJldmVhbFN0YXR1cyk7XG4gIH1cblxuICAvLyBNYWtlIGFueSByZXZlYWwgc2xpZGVzIHdpdGggbGl2ZSBjZWxscyBzY3JvbGxhYmxlXG4gIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoXCIucmV2ZWFsIC5leGVyY2lzZS1jZWxsXCIpLmZvckVhY2goKGVsKSA9PiB7XG4gICAgZWwuY2xvc2VzdCgnc2VjdGlvbi5zbGlkZScpLmNsYXNzTGlzdC5hZGQoXCJzY3JvbGxhYmxlXCIpO1xuICB9KVxuXG4gIC8vIHdlYlIgc3VwcGxlbWVudGFsIGRhdGEgYW5kIG9wdGlvbnNcbiAgY29uc3QgZGF0YUNvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici1kYXRhXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZGF0YSA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGRhdGFDb250ZW50KSk7XG5cbiAgLy8gR3JhYiBsaXN0IG9mIHJlc291cmNlcyB0byBiZSBkb3dubG9hZGVkXG4gIGNvbnN0IGZpbGVzQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ2ZnMtZmlsZVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGZpbGVzID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZmlsZXNDb250ZW50KSk7XG5cbiAgLy8gVXNlIFBvc3RNZXNzYWdlIGNoYW5uZWwgZm9yIGFzeW5jIGNvbW11bmljYXRpb25cbiAgLy8gV2UgZG8gbm90IGV4cGVjdCB0byB0YWtlIG5lc3RlZCBwcm9tcHQgaW5wdXQgaW4gUXVhcnRvIExpdmUgY2VsbHNcbiAgZGF0YS5vcHRpb25zLmNoYW5uZWxUeXBlID0gQ2hhbm5lbFR5cGUuUG9zdE1lc3NhZ2U7XG5cbiAgLy8gSW5pdGlhbGlzZSB3ZWJSIGFuZCBzZXR1cCBmb3IgUiBjb2RlIGV2YWx1YXRpb25cbiAgbGV0IHdlYlJQcm9taXNlID0gKGFzeW5jICh3ZWJSKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyB3ZWJSYDtcbiAgICBhd2FpdCB3ZWJSLmluaXQoKTtcblxuICAgIC8vIEluc3RhbGwgcHJvdmlkZWQgbGlzdCBvZiBwYWNrYWdlc1xuICAgIC8vIEVuc3VyZSB3ZWJSIGRlZmF1bHQgcmVwbyBpcyBpbmNsdWRlZFxuICAgIGRhdGEucGFja2FnZXMucmVwb3MucHVzaChcImh0dHBzOi8vcmVwby5yLXdhc20ub3JnXCIpXG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gd2ViUi5ldmFsUlZvaWQoYFxuICAgICAgICB3ZWJyOjppbnN0YWxsKHBrZywgcmVwb3MgPSByZXBvcylcbiAgICAgICAgbGlicmFyeShwa2csIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSlcbiAgICAgIGAsIHsgZW52OiB7XG4gICAgICAgIHBrZzogcGtnLFxuICAgICAgICByZXBvczogZGF0YS5wYWNrYWdlcy5yZXBvcyxcbiAgICAgIH19KTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICBjb25zdCBhbmFseXNpcyA9IGF3YWl0IHdlYlIuRlMuYW5hbHl6ZVBhdGgocGF0aCk7XG4gICAgICAgIGlmICghYW5hbHlzaXMuZXhpc3RzKSB7XG4gICAgICAgICAgdHJ5IHtcbiAgICAgICAgICAgIGF3YWl0IHdlYlIuRlMubWtkaXIocGF0aCk7XG4gICAgICAgICAgfSBjYXRjaCAoZSkge1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yOiBcIiR7ZS5tZXNzYWdlfVwiLmApO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgcmV0dXJuIGF3YWl0IHdlYlIuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5zdGFsbGluZyB3ZWJSIHNoaW1zYDtcbiAgICBhd2FpdCB3ZWJSLmV2YWxSVm9pZChgd2Vicjo6c2hpbV9pbnN0YWxsKClgKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgV2ViUiBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBSKHdlYlIsIGRhdGEpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHdlYlI7XG4gIH0pKG5ldyBXZWJSKGRhdGEub3B0aW9ucykpO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCB3ZWJSID0gYXdhaXQgd2ViUlByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFdlYlJFdmFsdWF0b3Iod2ViUiwgY29udGV4dClcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBwcm9jZXNzLFxuICAgIHdlYlJQcm9taXNlLFxuICAgIHJlbmRlcmVkT2pzLFxuICB9O1xufVxuIn1dfQ==
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
