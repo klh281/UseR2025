@@ -1,0 +1,20 @@
+project:
+  type: website
+  output-dir: docs        
+
+website:
+  title: "2025 UseR Lightening Talk"
+  navbar:
+    left:
+      - href: index.qmd
+        text: "<img src='images/igloo.png' alt='Home' style='height:30px;'>"
+  
+resources:
+  - data/**
+  - images/**
+  - styles.css
+
+
+
+
+
