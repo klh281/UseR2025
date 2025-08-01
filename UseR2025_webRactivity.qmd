@@ -30,7 +30,7 @@ library(tidyverse)
 library(purrr)
 
 df <- 
-  read_csv("https://klh281.github.io/UseR2025/data/uncertainty_exp2.csv") |> 
+  read_csv("data/uncertainty_exp2.csv") |> 
   filter(effect_size == "Large effect size") |>
   select(graph_type, wtp_final) |>
   drop_na() |>
@@ -222,7 +222,8 @@ Please click **Run Code** on the code chunk below to import the data.
 #| message: false
 
 df <- 
-  read_csv("https://klh281.github.io/UseR2025/data/uncertainty_exp2.csv") |> 
+  df <- 
+  read_csv("data/uncertainty_exp2.csv") |> 
   filter(effect_size == "Large effect size") |>
   select(graph_type, wtp_final) |>
   drop_na() |>

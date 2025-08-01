@@ -12,10 +12,9 @@ website:
         text: "<img src='images/igloo.png' alt='Home' style='height:30px;'>"
   
 resources:
-  - data/**
-  - images/**
+  - data
+  - images
   - styles.css
-  - extensions/r-wasm/live
 
 
 
