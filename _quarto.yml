@@ -3,11 +3,9 @@ project:
   output-dir: docs
 
 website:
-  title: "UseR 2025 Permutation Test Activity"
+  title: "2025 UseR Lightening Talk"
   site-url: "https://klh281.github.io/UseR2025/"
 
-website:
-  title: "2025 UseR Lightening Talk"
   navbar:
     left:
       - href: index.qmd
