@@ -16,6 +16,8 @@ webr:
   - tidyverse
 ---
 
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
 #| message: false
 #| warning: false
@@ -216,7 +218,7 @@ Let's use the permutation test approach to determine if there is a significant d
 
 Please click **Run Code** on the code chunk below to import the data.
 
-```{webr-r}
+```{webr}
 #| message: false
 
 df <- 
@@ -246,7 +248,7 @@ The code also creates a dummy-coded variable to compare Group B to Group A (whic
 
 Press **Run Code** to create the subsetted data frame for the investigation.
 
-```{webr-r}
+```{webr}
 
 # input the names of the groups you'd like to compare
 selection_1 <- "PI"
@@ -278,7 +280,7 @@ my_groups
 
 Press **Run Code** on the code chunk below to compute the mean and standard deviation of willingness to pay for the special boulder in your selected conditions. The code also calculates the sample size of each group.
 
-```{webr-r}
+```{webr}
 
 my_groups |> 
   group_by(group) |> 
@@ -292,7 +294,7 @@ my_groups |>
 
 Press **Run Code** to calculate the difference in willingness to pay between these two groups.
 
-```{webr-r}
+```{webr}
 
 # calculate the observed difference (Group B - Group A)
 observed_diff <- 
@@ -312,7 +314,7 @@ cat("Difference between groups (B - A):",
 
 > Last, let's create a plot of the raw data. Press **Run Code** to visualize the distribution of willingness to pay for these two groups.
 
-```{webr-r}
+```{webr}
 
 # calculate mean and 95% CI for each condition
 df_summary <- 
@@ -379,7 +381,7 @@ df_summary |>
 
 Using permutations, we can approximate the sampling distribution of the difference in willingness to pay between the two groups under the null hypothesis. Press  **Run Code**  to perform 5,000 permutations, calculating the mean willingness to pay for each shuffled group in every iteration.
 
-```{webr-r}
+```{webr}
 
 # define number of permutations
 n_permutations <- 5000
@@ -398,7 +400,7 @@ permutation_list <- replicate(n_permutations, {
 
 The graphic below shows how permutation works. The first panel displays the original data with the true group assignments, and the next three panels illustrate the first three shuffles of those assignments. Notice that after shuffling, the group labels no longer carry real meaning --- any patterns that emerge are purely due to chance.
 
-```{webr-r}
+```{webr}
 #| fig.width: 12
 #| fig.height: 8
 
@@ -477,7 +479,7 @@ output_subset |>
 
 Next, we’ll calculate the difference in mean willingness to pay between the two groups for every permutation. This value, which we’ll call **null_diff**, reflects the difference between the shuffled (randomized) group assignments in that permutation --- not the real experimental conditions. Click **Run Code** to generate **null_diff** for all permutations
 
-```{webr-r}
+```{webr}
 
 # turn list into a df
 df_permutations <- permutation_list |>
@@ -502,7 +504,7 @@ mean_diff_permutations |> head(n = 10)
 
 Now, we can visualize the expected difference in willingness to pay between the two groups under the null hypothesis.
 
-```{webr-r}
+```{webr}
 
 # get central 95% cutoffs
 q_lower <- quantile(mean_diff_permutations$null_diff, 0.025)
@@ -577,7 +579,7 @@ Our goal is to answer:
 
 Press **Run Code** to tally the number of extreme samples.
 
-```{webr-r}
+```{webr}
 
 mean_diff_permutations <- 
   mean_diff_permutations  |> 
@@ -597,7 +599,7 @@ This fraction is our **empirical *p*‑value** --- the probability of seeing a d
 
 A **small *p*‑value** means that such an extreme result would be **unlikely by chance alone**, providing **evidence against the null** and suggesting a possible real difference between the groups.
 
-```{webr-r}
+```{webr}
 
 # count extreme permutations (where |null_diff| ≥ |observed_diff|)
 p_value <- mean(abs(mean_diff_permutations$null_diff) >= abs(observed_diff))
@@ -618,7 +620,7 @@ In a permutation test, we can estimate this by calculating the **standard deviat
 
 Press **Run Code** to compute the standard error.
 
-```{webr-r}
+```{webr}
 
 se <-
   mean_diff_permutations |> 
@@ -654,7 +656,7 @@ $$
 
 Press **Run Code** on the code chunk below to compute the standardized test statistic.
 
-```{webr-r}
+```{webr}
 
 std_test_statistic = observed_diff/se
     
@@ -671,7 +673,7 @@ The shaded middle region represents the **95% of null test statistics** that are
 
 Press **Run Code** on the code chunk below to produce the graphic.
 
-```{webr-r}
+```{webr}
 
 # observed standardized test statistic
 std_test_statistic  <- observed_diff / se
@@ -787,7 +789,7 @@ where:
 
 Press **Run Code** on the code chunk below to compute the test.
 
-```{webr-r}
+```{webr}
 
 my_groups |> 
   t_test(wtp_final ~ group, 
@@ -815,7 +817,7 @@ Here's a breakdown of the code for the `t_test()` function in this context:
 
 We can equivalently specify the two sample *t*-test as a simple linear regression. Here, we regress willingness to pay on the dummy coded indicator designed to compare Group B to Group A.
 
-```{webr-r}
+```{webr}
 
 slr <- lm(wtp_final ~ groupB, data = my_groups)
 slr |> tidy(conf.int = TRUE, conf.level = .95)
