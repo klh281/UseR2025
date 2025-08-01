@@ -514,8 +514,8 @@ Finally, we run a classic t‑test and compare. This side‑by‑side helps stud
 -   **Reusable**: GitHub repo for easy adoption
 -   **Flexible**: Adaptable to other datasets
 
-🔗 **Links**: \[Tutorial URL\] \| \[GitHub Repo\]
+🔗 **Links**: <https://klh281.github.io/UseR2025/>
 
 ::: notes
-webR runs fully in the browser—no installs. All code lives on GitHub, so you can drop this into any course and adapt it to new datasets in minutes.”
+webR runs fully in the browser—no installs. All code lives on GitHub, so you can drop this into any course and adapt it to new datasets in minutes.
 :::

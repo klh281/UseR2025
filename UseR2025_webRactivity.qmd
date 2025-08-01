@@ -172,7 +172,7 @@ The graph below recreates the earlier plot using 5,000 shuffled datasets. It dis
 #| echo: false
 
 # define number of permutations
-n_permutations <- 5000
+n_permutations <- 1000
 
 permutation_df <- map_dfr(
   .x = seq_len(n_permutations),
@@ -402,7 +402,7 @@ Using permutations, we can approximate the sampling distribution of the differen
 ```{webr}
 
 # define number of permutations
-n_permutations <- 5000
+n_permutations <- 1000
 
 # create permutations
 permutation_list <- replicate(n_permutations, {
