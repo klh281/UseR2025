@@ -5,7 +5,10 @@ format:
   live-html:
     theme:
       light: [styles.css]
+    toc: true            
+    toc-location: left  
 engine: knitr
+df-print: paged 
 webr:
   render-df: paged-table
   packages:
@@ -72,7 +75,7 @@ We'll consider two variables in this activity:
 
 -   The outcome that we will consider here is called **wtp_final**. It represents the amount of money (in Ice Dollars) that the participant reported they would pay to rent the special boulder.
 
-# Graph the results
+## Does willingness to pay differ by condition?
 
 The graph below shows the average willingness to pay for the special boulder in each visualization condition, with 95% confidence intervals to reflect variability.
 
@@ -149,7 +152,7 @@ shuffled_groups
 
 ```
 
-Notice that the data frame now has the "real condition" ([graph_type]{.variable-name}) and a randomly shuffled condition ([shuffled_group]{.variable-name}).
+Notice that the data frame now has the "real condition" (**graph_type**) and a randomly shuffled condition (**shuffled_group**).
 
 We need **many shuffled datasets** to accurately assess how unusual our observed difference is.
 
@@ -214,12 +217,14 @@ As expected, the shuffled groups show almost no difference in willingness to pay
 
 Let's use the permutation test approach to determine if there is a significant difference in willingness to pay for the special boulder between two selected groups.
 
-# Import the data
+## Step 0: Import the data
 
 Please click **Run Code** on the code chunk below to import the data.
 
 ```{webr}
 #| message: false
+#| warning: false
+#| error: false
 
 df <- 
   df <- 
@@ -277,6 +282,10 @@ my_groups
 
 ## Step 2: Compute descriptive statistics
 
+### Compute average response for each condition
+
+Here we ask:
+
 > What is the average willingness to pay for the special boulder in each of your selected conditions?
 
 Press **Run Code** on the code chunk below to compute the mean and standard deviation of willingness to pay for the special boulder in your selected conditions. The code also calculates the sample size of each group.
@@ -290,6 +299,10 @@ my_groups |>
             n = n())
 
 ```
+
+### Compute difference in average response between conditions
+
+Here we ask:
 
 > What is the mean difference in willingness to pay between the two groups?
 
@@ -312,6 +325,8 @@ cat("Difference between groups (B - A):",
     "\n")
 
 ```
+
+### Make a descriptive plot
 
 > Last, let's create a plot of the raw data. Press **Run Code** to visualize the distribution of willingness to pay for these two groups.
 
@@ -380,7 +395,9 @@ df_summary |>
 
 ## Step 4: Mimic the sampling distribution for the difference in group means under the null hypothesis
 
-Using permutations, we can approximate the sampling distribution of the difference in willingness to pay between the two groups under the null hypothesis. Press  **Run Code**  to perform 5,000 permutations, calculating the mean willingness to pay for each shuffled group in every iteration.
+### Create shuffled datasets
+
+Using permutations, we can approximate the sampling distribution of the difference in willingness to pay between the two groups under the null hypothesis. Press **Run Code** to perform 5,000 permutations, calculating the mean willingness to pay for each shuffled group in every iteration. This will take a few minutes.
 
 ```{webr}
 
@@ -397,7 +414,12 @@ permutation_list <- replicate(n_permutations, {
     select(wtp_final, original_group, shuffled_group)
 }, simplify = FALSE)
 
+# output a confirmation message
+cat("✅ Completed", n_permutations, "permutations.\n")
+
 ```
+
+### Take a peek at the raw data and first three suffled datasets
 
 The graphic below shows how permutation works. The first panel displays the original data with the true group assignments, and the next three panels illustrate the first three shuffles of those assignments. Notice that after shuffling, the group labels no longer carry real meaning --- any patterns that emerge are purely due to chance.
 
@@ -478,6 +500,8 @@ output_subset |>
 
 ```
 
+### Compute the difference in the response across all shuffled datasets
+
 Next, we’ll calculate the difference in mean willingness to pay between the two groups for every permutation. This value, which we’ll call **null_diff**, reflects the difference between the shuffled (randomized) group assignments in that permutation --- not the real experimental conditions. Click **Run Code** to generate **null_diff** for all permutations
 
 ```{webr}
@@ -502,6 +526,8 @@ mean_diff_permutations <-
 mean_diff_permutations |> head(n = 10)
 
 ```
+
+### Visualize the sampling distribution under the null
 
 Now, we can visualize the expected difference in willingness to pay between the two groups under the null hypothesis.
 
@@ -552,6 +578,8 @@ mean_diff_permutations |>
 
 ## Step 5: Query the permutations
 
+### Tally extreme results
+
 Our goal is to answer:
 
 > In how many of the permuted samples is the calculated difference between groups as extreme (or more extreme) than our observed difference between groups?
@@ -591,6 +619,10 @@ mean_diff_permutations <-
 mean_diff_permutations |> count(extreme_diff)
 
 ```
+
+### Compute *p*-value
+
+Here we ask:
 
 \>What proportion of the permuted differences are as extreme as our observed difference?
 
@@ -655,6 +687,8 @@ $$
 t = \frac{(\bar{x}_B - \bar{x}_A) - 0}{SE}
 $$
 
+### Compute the standardized test statistic
+
 Press **Run Code** on the code chunk below to compute the standardized test statistic.
 
 ```{webr}
@@ -667,6 +701,9 @@ cat("Standardized test statistic:",
     "\n")
 
 ```
+
+
+### Visualize the standardized text statistic alongside the sampling distribution under the null
 
 We can visualize where our **observed standardized test statistic** falls relative to the **null distribution** --- the distribution of standardized differences we would expect if there were truly **no difference** between the groups.
 
