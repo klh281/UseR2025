@@ -15,6 +15,7 @@ resources:
   - data/**
   - images/**
   - styles.css
+  - extensions/r-wasm/live
 
 
 
