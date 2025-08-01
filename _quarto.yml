@@ -1,6 +1,10 @@
 project:
   type: website
-  output-dir: docs        
+  output-dir: docs
+
+website:
+  title: "UseR 2025 Permutation Test Activity"
+  site-url: "https://klh281.github.io/UseR2025/"
 
 website:
   title: "2025 UseR Lightening Talk"
